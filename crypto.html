@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Dépôt USDT-TRC20</title>
+    <link rel="icon" type="image/x-icon" href="https://www.tronscan.org/static/media/logo-icon-svg.ecf8803a.svg">
+
+    <style>
+ /* Styles généraux */
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Police plus moderne */
+            margin: 0; /* Supprime la marge par défaut du body */
+            padding: 20px; /* Ajoute un peu d'espace autour du contenu */
+            background-color: #f0f2f5; /* Un gris très léger, moderne, pour le fond de page */
+            color: #34495e; /* Un gris très foncé (presque noir) pour le texte principal, plus doux que le noir pur */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh; /* S'assure que le body prend toute la hauteur de la vue */
+            box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur totale */
+        }
+        .container {
+            background-color: #ffffff; /* Blanc pur pour le fond du conteneur central */
+            padding: 30px 40px; /* Plus d'espace intérieur pour la respirabilité */
+            border-radius: 12px; /* Bords légèrement plus arrondis pour un look doux */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Ombre plus prononcée pour un effet de profondeur */
+            max-width: 550px; /* Augmente légèrement la largeur maximale */
+            width: 100%; /* S'assure que le conteneur s'adapte à 100% de la largeur disponible */
+            margin-top: 30px; /* Espace en haut */
+            margin-bottom: 30px; /* Espace en bas pour la section des transactions */
+        }
+        h1 {
+            color: #2c3e50; /* Un bleu-gris profond pour les titres, aspect pro */
+            font-size: 2.2em; /* Taille légèrement plus grande pour le titre principal */
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #3498db; /* Un bleu plus vif pour le sous-titre, pour attirer l'attention */
+            font-size: 1.6em;
+            margin-top: 5px;
+            margin-bottom: 25px;
+        }
+        p {
+            font-size: 1.1em; /* Texte un peu plus grand pour une meilleure lisibilité */
+            line-height: 1.6; /* Espacement des lignes amélioré */
+            margin-bottom: 15px;
+        }
+
+        /* Style pour le conteneur du QR code */
+        #qrcode {
+            margin: 25px auto; /* Centrage et espacement améliorés */
+            padding: 15px; /* Plus de padding autour du QR code */
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Petite ombre pour le QR code lui-même */
+            display: inline-block; /* Nécessaire pour que margin: auto fonctionne pour le centrage */
+        }
+
+        .wallet-address {
+            background-color: #ecf0f1; /* Gris très clair, doux */
+            color: #2c3e50; /* Texte de l'adresse en bleu-gris foncé */
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            font-weight: bold; /* L'adresse est en gras */
+            word-break: break-all;
+            border: 1px solid #dcdfe4; /* Bordure subtile */
+        }
+
+        .copy-button {
+            background-color: #3498db; /* Le bleu vif pour le bouton Copier */
+            color: white;
+            padding: 12px 25px; /* Plus de padding pour un bouton plus grand */
+            border: none;
+            border-radius: 6px; /* Bords légèrement plus arrondis */
+            cursor: pointer;
+            font-size: 1.1em; /* Taille de police légèrement augmentée */
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transition douce au survol */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+        }
+        .copy-button:hover {
+            background-color: #2980b9; /* Bleu légèrement plus foncé au survol */
+            transform: translateY(-2px); /* Léger effet de soulèvement au survol */
+        }
+        .copy-button:active {
+            background-color: #1abc9c; /* Couleur différente au clic (optionnel, vert pour feedback) */
+            transform: translateY(0);
+        }
+
+        #copyFeedback { /* Style pour le message de feedback du bouton copier */
+            display: none; /* Cache par défaut */
+            margin-left: 10px;
+            color: #27ae60; /* Vert pour "Copié !" */
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .instructions {
+            margin-top: 35px; /* Plus d'espace avant les instructions */
+            text-align: left;
+            border-top: 1px solid #e0e0e0; /* Ligne de séparation subtile */
+            padding-top: 25px;
+        }
+        .instructions h3 {
+            color: #2c3e50; /* Couleur des titres d'instructions */
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        .instructions p {
+            margin-bottom: 10px;
+        }
+        .instructions strong {
+            color: #3498db; /* Met en évidence les mots clés en bleu */
+        }
+
+        /* Style pour le message d'alerte/erreur dans les instructions */
+        .instructions p strong:first-child { /* Cible le premier strong de chaque paragraphe des instructions */
+            color: #e74c3c; /* Rouge plus doux et professionnel pour les alertes */
+        }
+
+        /* Styles pour la section des transactions */
+        .transactions-section {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            max-width: 550px;
+            width: 100%;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .transactions-section h3 {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95em;
+        }
+        .transaction-table th, .transaction-table td {
+            border: 1px solid #e0e0e0;
+            padding: 10px;
+            text-align: left;
+        }
+        .transaction-table th {
+            background-color: #f8f8f8;
+            color: #555;
+            font-weight: bold;
+        }
+        .transaction-table tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+        .transaction-table .status-success {
+            color: #27ae60; /* Vert pour succès */
+            font-weight: bold;
+        }
+        .transaction-table .status-pending {
+            color: #f39c12; /* Orange pour en attente */
+            font-weight: bold;
+        }
+        .transaction-table a {
+            color: #3498db; /* Liens Tronscan en bleu */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .transaction-table a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message de maintenance */
+        #maintenance-message {
+            display: none; /* Caché par défaut. Pour l'afficher, changez 'display: none;' en 'display: block;' ou 'display: flex;' */
+            background-color: #f39c12; /* Couleur orange d'avertissement */
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            max-width: 550px; /* Même largeur que le conteneur principal */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Optimisation pour les petits écrans (responsive design) */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px; /* Moins de padding sur les très petits écrans */
+            }
+            .container, .transactions-section, #maintenance-message {
+                padding: 20px; /* Ajuster le padding interne */
+                border-radius: 8px; /* Moins de bord arrondi */
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+            p, .wallet-address, .copy-button, #copyFeedback {
+                font-size: 1em;
+            }
+            .transaction-table {
+                font-size: 0.85em; /* Texte plus petit dans le tableau */
+            }
+            .transaction-table th, .transaction-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body> 
+   <div id="maintenance-message">
+        Notre service de dépôt est actuellement en maintenance. Merci de réessayer plus tard.
+    </div>
+
+    <div class="container">
+        <h1>Page de Dépôt</h1>
+        <h2>USDT-TRC20</h2>
+
+        <p>Veuillez scanner ce code QR pour effectuer votre dépôt USDT-TRC20 :</p>
+        <div id="qrcode"></div>
+
+        <p>Ou copiez l'adresse de portefeuille ci-dessous :</p>
+        <div class="wallet-address" id="walletAddress">
+            TYk3RaqhepnHWSarYs2T5Gq7ZRrRar7FwH
+        </div>
+        <button class="copy-button" onclick="copyAddress()">Copier l'adresse</button>
+        <span id="copyFeedback"></span> <div class="instructions">
+            <h3>Instructions Importantes pour votre Dépôt USDT-TRC20 :</h3>
+            <p><strong>1. Copiez l'adresse ou scannez le QR code</strong> : Utilisez votre application de portefeuille (ex: Binance, Trust Wallet, etc.) pour scanner le code QR ci-dessus ou copiez précisément l'adresse de portefeuille USDT-TRC20 fournie.</p>
+            <p><strong>2. Envoyez vos fonds</strong> : Effectuez le transfert de vos USDT en sélectionnant le réseau <strong>TRC20 (Tron)</strong>. Vérifiez bien que vous utilisez le bon réseau pour éviter toute perte de fonds.</p>
+            <p><strong>3. Capture d'écran et numéro de transaction</strong> : Après avoir envoyé vos USDT, prenez une capture d'écran de la confirmation de votre transaction depuis votre portefeuille. Notez également le numéro de transaction (Hash TXID).</p>
+            <p><strong>4. Informez-nous</strong> : Envoyez-nous la capture d'écran de votre transaction ainsi que le numéro de transaction (Hash TXID).</p>
+            <p><strong>5. Confirmation</strong> : Votre dépôt sera vérifié et crédité sur votre compte dès confirmation de la transaction sur le réseau blockchain.</p>
+            <p><strong>Attention :</strong> Assurez-vous d'utiliser uniquement le réseau <strong>TRC20 (Tron)</strong> pour vos dépôts USDT. Toute transaction envoyée via un autre réseau (comme ERC20) à cette adresse sera perdue.</p>
+        </div>
+    </div>
+
+    <div class="transactions-section">
+        <h3>Historique Récent des Dépôts</h3>
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                    <th>ID de Transaction</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-07-26 14:30</td>
+                    <td>150 USDT</td>
+                    <td class="status-success">Confirmé</td>
+                    <td><a href="https://tronscan.org/#/transaction/0xabc1234567890abcdef1234567890abcdef123456" target="_blank">0xabc...d12</a></td>
+                </tr>
+                <tr>
+                    <td>2025-07-26 10:15</td>
+                    <td>50 USDT</td>
+                    <td class="status-pending">En attente</td>
+                    <td><a href="https://tronscan.org/#/transaction/0xdef1234567890abcdef1234567890abcdef123456" target="_blank">0xdef...e34</a></td>
+                </tr>
+                <tr>
+                    <td>2025-07-25 21:00</td>
+                    <td>250 USDT</td>
+                    <td class="status-success">Confirmé</td>
+                    <td><a href="https://tronscan.org/#/transaction/0xghi1234567890abcdef1234567890abcdef123456" target="_blank">0xghi...f56</a></td>
+                </tr>
+                <tr>
+                    <td>2025-07-25 08:45</td>
+                    <td>80 USDT</td>
+                    <td class="status-success">Confirmé</td>
+                    <td><a href="https://tronscan.org/#/transaction/0xjkl1234567890abcdef1234567890abcdef123456" target="_blank">0xjkl...g78</a></td>
+                </tr>
+                <tr>
+                    <td>2025-07-24 18:20</td>
+                    <td>100 USDT</td>
+                    <td class="status-pending">En attente</td>
+                    <td><a href="https://tronscan.org/#/transaction/0xmno1234567890abcdef1234567890abcdef123456" target="_blank">0xmno...h90</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-size: 0.9em; color: #7f8c8d; margin-top: 20px;">
+        </p>
+    </div>  
+      <script type="text/javascript" src="qrcode.min.js"></script>
+    <script type="text/javascript">
+        // Mettez votre adresse de portefeuille USDT-TRC20 ici !
+        const walletAddress = "TYk3RaqhepnHWSarYs2T5Gq7ZRrRar7FwH"; 
+
+        // Afficher l'adresse dans la div de texte
+        document.getElementById("walletAddress").innerText = walletAddress;
+
+        // Générer le QR code
+        const qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: walletAddress,
+            width: 200, // Largeur du QR code en pixels
+            height: 200, // Hauteur du QR code en pixels
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H // Niveau de correction d'erreur (L, M, Q, H)
+        });
+
+        // Fonction pour copier l'adresse avec feedback amélioré
+        function copyAddress() {
+            var copyText = document.getElementById("walletAddress");
+            var range = document.createRange();
+            range.selectNode(copyText);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+
+            // Afficher le message de feedback
+            var feedback = document.getElementById("copyFeedback");
+            feedback.innerText = "Copié !"; // Assurez-vous que le texte est "Copié !"
+            feedback.style.display = "inline"; // Rendre le message visible
+
+            // Faire disparaître le message après 2 secondes
+            setTimeout(function() {
+                feedback.style.display = "none";
+                feedback.innerText = ""; // Effacer le texte après qu'il ait disparu
+            }, 2000); // 2000 millisecondes = 2 secondes
+        }
+
+        // Script pour activer/désactiver le message de maintenance (à utiliser pour le développement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pour afficher le message de maintenance, décommentez la ligne suivante :
+            // document.getElementById('maintenance-message').style.display = 'block'; 
+            // ou 'flex' si le body utilise flexbox.
+            // Pour le cacher (par défaut), laissez-le commenté ou réglez display: 'none' dans le CSS.
+        });
+
+    </script>
